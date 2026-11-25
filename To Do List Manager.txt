@@ -1,0 +1,94 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_TASKS 50
+
+int main() {
+    // Arrays to store up to 50 task titles and their status (0 = Pending, 1 = Done)
+    char titles[MAX_TASKS][100];
+    int status[MAX_TASKS];
+    int count = 0;
+    int choice = 0;
+    int sno;
+    int i;
+
+    // Repeat menu until user chooses Exit (4)
+    while (choice != 4) {
+        printf("\n==============================\n");
+        printf("     TO-DO LIST MANAGER\n");
+        printf("==============================\n");
+        printf("1. Add Task\n");
+        printf("2. View All Tasks\n");
+        printf("3. Mark Task as Done\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        // Clear leftover newline from input buffer
+        getchar();
+
+        switch (choice) {
+            case 1:
+                // Functionality 1: Add task (status starts as Pending)
+                if (count >= MAX_TASKS) {
+                    printf("Task list is full! Cannot add more than %d tasks.\n", MAX_TASKS);
+                } else {
+                    printf("Enter task title: ");
+                    fgets(titles[count], sizeof(titles[count]), stdin);
+                    // Remove trailing newline character added by fgets
+                    titles[count][strcspn(titles[count], "\n")] = '\0';
+
+                    status[count] = 0;
+                    count++;
+                    printf("Task added successfully! Assigned S.No.: %d\n", count);
+                }
+                break;
+
+            case 2:
+                // Functionality 2: View all tasks with status
+                if (count == 0) {
+                    printf("No tasks found. Your to-do list is empty.\n");
+                } else {
+                    printf("\n%-6s %-35s %-10s\n", "S.No.", "Task Title", "Status");
+                    printf("-----------------------------------------------------\n");
+                    for (i = 0; i < count; i++) {
+                        if (status[i] == 1) {
+                            printf("%-6d %-35s %-10s\n", i + 1, titles[i], "Done");
+                        } else {
+                            printf("%-6d %-35s %-10s\n", i + 1, titles[i], "Pending");
+                        }
+                    }
+                }
+                break;
+
+            case 3:
+                // Functionality 3: Mark a task as done by S.No.
+                if (count == 0) {
+                    printf("No tasks available to mark as done.\n");
+                } else {
+                    printf("Enter S.No. of the task to mark as done: ");
+                    scanf("%d", &sno);
+
+                    if (sno < 1 || sno > count) {
+                        printf("Invalid S.No.! No task exists with S.No. %d.\n", sno);
+                    } else if (status[sno - 1] == 1) {
+                        printf("Task %d is already marked as Done.\n", sno);
+                    } else {
+                        status[sno - 1] = 1;
+                        printf("Task %d ('%s') marked as Done!\n", sno, titles[sno - 1]);
+                    }
+                }
+                break;
+
+            case 4:
+                printf("Exiting To-Do List Manager. Goodbye!\n");
+                break;
+
+            default:
+                printf("Invalid choice! Please select an option between 1 and 4.\n");
+                break;
+        }
+    }
+
+    return 0;
+}

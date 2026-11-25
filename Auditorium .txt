@@ -1,4 +1,4 @@
-/* Auditorium Hall Booking - Phase 1
+/* Auditorium Hall Booking - 
    1. Book hall: organiser name, event name, date, time slot (1-4)
    2. View all bookings
    3. Check a date and slot: show Free or Booked
@@ -101,9 +101,6 @@ int main()
             break;
 
         default:
-            printf("Invalid choice. Enter 1 to 4.\n");
-        }
-    } while (choice != 4);
 
     return 0;
 }
